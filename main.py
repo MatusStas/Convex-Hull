@@ -9,6 +9,10 @@ radius = 10
 center = radius//2
 n = 32
 arr = []
+edges = []
+ok = 0
+MAX = []
+
 
 def extractCoorinates(actual_point, next_point, center):
 	actual_point_coordinates = [x+center for x in actual_point]
@@ -40,44 +44,42 @@ pointGenerator()
 left_point,right_point = LeftRight()
 
 XX = arr[:]
-edges = []
 actual_point = left_point
-MAX = []
-ok = 0
+
 screen.update()
 time.sleep(0.5)
+
 while True:
 	maxd = 0
 	next_point = []
-	for i in range(0,len(arr)):
-		if arr[i] == actual_point:
+	for index,next_point in enumerate(arr):
+		if next_point == actual_point:
 			continue
 		
-		X = arr[i][0]-actual_point[0]
-		Y = arr[i][1]-actual_point[1]
+		X = next_point[0]-actual_point[0]
+		Y = next_point[1]-actual_point[1]
 		degree = math.degrees(math.atan2(X,Y))
 
-		if arr[i] != left_point:
-			screen.create_line((actual_point[0]+center,actual_point[1]+center,arr[i][0]+center,arr[i][1]+center), fill = "white")
-			time.sleep(0.01)
+		screen.create_line(extractCoorinates(actual_point,next_point,center), fill = "white")
+		time.sleep(0.01)
 
-			for l in XX:
-				screen.create_oval(l[0],l[1],l[0]+radius,l[1]+radius, width = 0, fill = "white")
-			screen.update()
+		for l in XX:
+			screen.create_oval(l[0],l[1],l[0]+radius,l[1]+radius, width = 0, fill = "white")
+		screen.update()
+	
+		screen.create_line(extractCoorinates(actual_point,next_point,center), fill = "black")
+		time.sleep(0.01)
 		
-			screen.create_line((actual_point[0]+center,actual_point[1]+center,arr[i][0]+center,arr[i][1]+center), fill = "black")
-			time.sleep(0.01)
-			
-			for l in XX:
-				screen.create_oval(l[0],l[1],l[0]+radius,l[1]+radius, width = 0, fill = "white")
-			
-			for edge in edges:
-				screen.create_line(edge, width = 2, fill = "white")
+		for l in XX:
+			screen.create_oval(l[0],l[1],l[0]+radius,l[1]+radius, width = 0, fill = "white")
+		
+		for edge in edges:
+			screen.create_line(edge, width = 2, fill = "white")
 
-			screen.update()
+		screen.update()
 
 
-		MAX.append([degree,arr[i]])
+		MAX.append([degree,next_point])
 
 
 	MAX.sort()
@@ -92,8 +94,7 @@ while True:
 
 	MAX = []
 
-	screen.create_line((actual_point[0]+center,actual_point[1]+center,next_point[0]+center,next_point[1]+center), width = 2, fill = "white")
-
+	screen.create_line(extractCoorinates(actual_point,next_point,center), width = 2, fill = "white")
 	edges.append(extractCoorinates(actual_point,next_point,center))
 	screen.update()
 	
