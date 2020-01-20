@@ -50,7 +50,6 @@ screen.update()
 time.sleep(0.5)
 
 while True:
-	maxd = 0
 	next_point = []
 	for index,next_point in enumerate(arr):
 		if next_point == actual_point:
